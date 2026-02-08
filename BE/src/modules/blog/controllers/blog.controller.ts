@@ -22,8 +22,8 @@ export class BlogController {
   }
 
   @Get(':id')
-  findById(@Param() id: string) {
-    return this.blogService.findBlogById(Number(id));
+  findById(@Param('id') id: string) {
+    return this.blogService.findBlogById(id);
   }
 
   @Post()
@@ -32,12 +32,12 @@ export class BlogController {
   }
 
   @Delete(':id')
-  delete(@Param() id: string) {
-    return this.blogService.deleteBlog(Number(id));
+  delete(@Param('id') id: string) {
+    return this.blogService.deleteBlog(id);
   }
 
   @Put(':id')
-  update(@Param() id: string, @Body() body: BlogDto) {
-    return this.blogService.updateBlog(Number(id), body);
+  update(@Param('id') id: string, @Body() body: BlogDto) {
+    return this.blogService.updateBlog(id, body);
   }
 }

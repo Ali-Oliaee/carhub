@@ -29,12 +29,16 @@ export default tseslint.config(
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-floating-promises': 'warn',
       '@typescript-eslint/no-unsafe-argument': 'warn',
-      "prettier/prettier": ["error", { endOfLine: "auto" }],
+      'prettier/prettier': ['error', { endOfLine: 'auto' }],
     },
   },
   {
-    // Disable unsafe rules for files using decorators (DTOs, entities, controllers)
-    files: ['**/*.dto.ts', '**/*.entity.ts', '**/*.controller.ts'],
+    files: [
+      '**/*.dto.ts',
+      '**/*.entity.ts',
+      '**/*.controller.ts',
+      '**/*.schema.ts',
+    ],
     rules: {
       '@typescript-eslint/no-unsafe-call': 'off',
       '@typescript-eslint/no-unsafe-member-access': 'off',

@@ -25,11 +25,40 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## Environment Variables
+
+Create a `.env` file in the root directory with the following variables:
+
+```bash
+# MongoDB Connection
+MONGO_URI=mongodb://localhost:27017/nest-prac
+
+# Application Port (optional)
+PORT=3000
+```
+
 ## Project setup
 
 ```bash
 $ yarn install
 ```
+
+## Database
+
+This project uses **MongoDB** with Mongoose for data persistence.
+
+### MongoDB Setup
+
+1. Install MongoDB locally or use a cloud service like MongoDB Atlas
+2. Create a `.env` file in the root directory with your MongoDB connection string:
+
+```bash
+MONGO_URI=mongodb://localhost:27017/nest-prac
+# Or for MongoDB Atlas:
+# MONGO_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/<database>?retryWrites=true&w=majority
+```
+
+3. Ensure MongoDB is running before starting the application
 
 ## Compile and run the project
 

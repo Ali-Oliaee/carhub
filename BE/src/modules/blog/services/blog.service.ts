@@ -1,51 +1,47 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { BlogDto } from '../dtos/blog.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Blog } from '../schemas/blog.schema';
+import { Model, Types } from 'mongoose';
 
 @Injectable()
 export class BlogService {
-  private blogs = [
-    {
-      _id: 1,
-      title: 'Blog1',
-      content: 'content1',
-    },
-    {
-      _id: 2,
-      title: 'Blog2',
-      content: 'content 2',
-    },
-  ];
+  constructor(
+    @InjectModel(Blog.name) private readonly blogModel: Model<Blog>,
+  ) {}
 
-  blogsList() {
-    return this.blogs;
+  async blogsList() {
+    return await this.blogModel.find().exec();
   }
 
-  findBlogById(id: number) {
-    const blog = this.blogs.find((blog) => blog._id === id);
+  async findBlogById(id: string) {
+    if (!Types.ObjectId.isValid(id)) throw new BadRequestException();
+    const blog = await this.blogModel.findOne({ _id: String(id) }).exec();
+
     if (blog) return blog;
     else throw new NotFoundException();
   }
 
-  createBlog(blog: BlogDto) {
-    const newBlog = {
-      _id: this.blogs.length + 1,
-      title: blog.title,
-      content: blog.content,
-    };
-    this.blogs.push(newBlog);
+  async createBlog(blog: BlogDto) {
+    const newBlog = new this.blogModel(blog);
+    await newBlog.save();
     return newBlog;
   }
 
-  deleteBlog(id: number) {
-    this.blogs = this.blogs.filter((blog) => blog._id !== id);
-    return;
+  async deleteBlog(id: string) {
+    const blog = await this.findBlogById(id);
+    await blog.deleteOne();
   }
 
-  updateBlog(id: number, blog: BlogDto) {
-    this.blogs = this.blogs.map((item) => {
-      if (item._id === id) return { ...blog, _id: id };
-      else return item;
-    });
+  async updateBlog(id: string, editedBlog: BlogDto) {
+    const blog = await this.findBlogById(id);
+    blog.title = editedBlog.title;
+    blog.content = editedBlog.content;
+    await blog.save();
     return blog;
   }
 }

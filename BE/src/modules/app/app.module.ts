@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { db } from '../../config/typeorm.config';
 import { BlogModule } from '../blog/blog.module';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
-  imports: [db, BlogModule],
+  imports: [BlogModule, MongooseModule.forRoot('mongodb://localhost:27017')],
   controllers: [],
   providers: [],
 })
